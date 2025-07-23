@@ -3,8 +3,8 @@
 # === Configuration ===
 STACK_SET_NAME="AuditIAMRoleStackSet2"
 TEMPLATE_FILE="audit-iam-role.yaml"
-MGMT_ACCOUNT_ID="202221698350"
-OU_ID="r-nbug"
+MGMT_ACCOUNT_ID="$MasterAccountID"
+OU_ID="$RootAccountID" # aws organizations list-roots
 REGION="eu-west-1"
 
 # === Step 1: Create the StackSet ===
@@ -37,7 +37,7 @@ echo "aws cloudformation list-stack-set-operations --stack-set-name $STACK_SET_N
 
 # === Step 4: Verify Deployment ===
 echo ""
-echo "✅ To verify deployment, run the command below once you have the Operation ID:"
+echo " To verify deployment, run the command below once you have the Operation ID:"
 echo "aws cloudformation describe-stack-set-operation \\"
 echo "  --stack-set-name $STACK_SET_NAME \\"
 echo "  --operation-id <paste-operation-id-here>"
