@@ -3,7 +3,7 @@ import csv
 from datetime import datetime, timezone
 
 # Replace with your org account IDs
-child_account_ids = ['424462704852', '731472798505', '316790910104', '790548586308', '232891840807', '116295093192', '417722652017', '491557514556', '752211425412', '044622796377', '233966641716', '149867961755', '081826788571', '732197023401', '996466182295', '044872349859', '116201929255']
+child_account_ids = ['$AccountID']
 audit_role_name = "AuditIAMRole"
 
 # Create report file
@@ -74,4 +74,4 @@ with open('org_iam_user_report.csv', mode='w', newline='') as csv_file:
                     'HasAccessKeys': has_access_keys
                 })
 
-print("✅ IAM report for org written to org_iam_user_report.csv")
+print("report for org written to org_iam_user_report.csv")
