@@ -1,0 +1,90 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: IAM Role for cross-account auditing from AWS Organizations management account
+
+Parameters:
+  ManagementAccountId:
+    Type: String
+    Description: The AWS account ID of the Organizations management account
+
+Resources:
+  AuditIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: AuditIAMRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub arn:aws:iam::${ManagementAccountId}:role/SecurityAuditRole
+            Action: sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: AuditIAMAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - iam:ListUsers
+                  - iam:GetUser
+                  - iam:ListAccessKeys
+                  - iam:GetLoginProfile
+                  - iam:ListRoles
+                  - iam:GetRole
+                  - iam:ListRolePolicies
+                  - iam:GetRolePolicy
+                Resource: "*"
+
+              - Effect: Allow
+                Action:
+                  - sts:GetCallerIdentity
+                  - sts:AssumeRole
+                Resource: "*"
+
+              - Effect: Allow
+                Action:
+                  - organizations:ListAccounts
+                Resource: "*"
+
+              - Effect: Allow
+                Action:
+                  # S3 read permissions
+                  - s3:ListAllMyBuckets
+                  - s3:ListBucket
+                  - s3:GetBucketLocation
+                  - s3:GetBucketAcl
+                  - s3:GetBucketPolicy
+                  - s3:GetObject
+                  - s3:GetObjectAcl
+                Resource: "*"
+
+              - Effect: Allow
+                Action:
+                  # RDS read permissions
+                  - rds:DescribeDBInstances
+                  - rds:DescribeDBClusters
+                  - rds:DescribeDBSnapshots
+                  - rds:ListTagsForResource
+                Resource: "*"
+
+              - Effect: Allow
+                Action:
+                  # EC2 read permissions
+                  - ec2:DescribeInstances
+                  - ec2:DescribeSecurityGroups
+                  - ec2:DescribeVolumes
+                  - ec2:DescribeSnapshots
+                  - ec2:DescribeImages
+                  - ec2:DescribeRegions
+                  - ec2:DescribeKeyPairs
+                  - ec2:DescribeAddresses
+                Resource: "*"
+
+              - Effect: Allow
+                Action:
+                  # Secrets Manager read permissions
+                  - secretsmanager:ListSecrets
+                  - secretsmanager:DescribeSecret
+                  - secretsmanager:GetSecretValue
+                Resource: "*"
