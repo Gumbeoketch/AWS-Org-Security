@@ -1,7 +1,7 @@
 # 📘 AWS-Org-Security
 
 A security audit toolkit for AWS Organizations.
-This repository contains scripts to **automate cross-account IAM audits** across all member accounts within an AWS Organization.
+This repository contains scripts to **automate cross-account IAM audits** across all member accounts within an AWS Organization. It includes security relevant inventory of EC2, S3, RDS and Secrets Manager
 
 ---
 
